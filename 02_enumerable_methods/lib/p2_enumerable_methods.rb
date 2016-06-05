@@ -17,12 +17,18 @@ module Enumerable
 
     def my_select
     	to_return = []
-    	self.my_each  do |x|
-    		if yield(x)
-    			to_return << x
-    		end
-    	end
-    	return to_return
+      if block_given?
+      	self.my_each  do |x|  
+      		if yield(x)
+      			to_return << x
+      		end
+      	end
+      end  
+      if to_return == []
+        return self
+    	else
+        return to_return
+      end
     end
 
     def my_all?
@@ -143,12 +149,13 @@ module Enumerable
     	end
     	return to_return
     end
+end
 
 def multiply_els(input)
 	return input.my_inject(1) { |product, n| product * n }
 end
 
-something = Proc.new{ |i| i*i*i }
+#something = Proc.new{ |i| i*i*i }
 
 # 1) Test my_each method
 #["x","xx","y","yz"].my_each do |x|
@@ -196,5 +203,5 @@ something = Proc.new{ |i| i*i*i }
 # 10 Test my_map with proc
 #puts [1,2,3,4].my_map_with_proc(&something)     #=> [1, 4, 9, 16]
 # 11 Test my_map_with_proc_block
-puts [1,2,3,4].my_map_with_proc_block(&something) {|i| i/2}     #=> [1, 4, 9, 16]
+#puts [1,2,3,4].my_map_with_proc_block(&something) {|i| i/2}     #=> [1, 4, 9, 16]
 # This does not work: either I dont understand the instruction or the instruction is impossible to perform
